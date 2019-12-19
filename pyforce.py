@@ -13,8 +13,8 @@ strings = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'l', 'm', 'n', 
 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z', 'Y', '/', '\ ', '.',
  ';', '"', "'", ']', '[', '+', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ':', '|', ',', '=', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*', '(' ,')'  '`', '~']
 
-user_input_hash = input("Hash: ")
-user_input_len = int(input("Length: "))
+user_input_hash = input("\033[1;32m Hash: \033[1;m")
+user_input_len = int(input("\033[1;32m Length: \033[1;m"))
 
 
 print("\033[1;32m [+]Starting Script \033[1;m")
@@ -65,4 +65,3 @@ for combo in itertools.product(''.join(strings), repeat=user_input_len):
         print("\033[1;36m Hash Cracked: {0}".format(chars))
         break
 
-print("\033[1;32m [+]Loop Finished \033[1;m")
