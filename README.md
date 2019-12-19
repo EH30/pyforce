@@ -3,7 +3,7 @@ Simple Python script   this will try almost all character combinations to crack 
 
 
 <img src="https://github.com/EH30/pyforce/blob/master/pyforce.py" >
-# Usage
+# Usage   
 ---------------------------------
 
 python pyforce.py   
