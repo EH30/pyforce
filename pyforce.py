@@ -2,6 +2,9 @@ import os
 import sys
 import itertools
 import hashlib
+import threading
+import concurrent.futures
+import argparse
 
 if sys.platform == "linux" or sys.platform == "linux2":
     os.system("clear")
@@ -11,57 +14,137 @@ elif sys.platform == "win32":
 
 strings = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', 'y',
 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z', 'Y', '/', '\ ', '.',
- ';', '"', "'", ']', '[', '+', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ':', '|', ',', '=', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*', '(' ,')'  '`', '~']
-
-user_input_hash = input("\033[1;32m Hash: \033[1;m")
-user_input_len = int(input("\033[1;32m Length: \033[1;m"))
+ ';', '"', "'", ']', '[', '+', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ':', '|', ',', '=', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*', '(' ,')'  '`', '~', ' ']
 
 
-print("\033[1;32m [+]Starting Script \033[1;m")
+def crypto(char_combo, algorithm):
+    if algorithm == "md5":
+        return hashlib.md5(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha1":
+        return hashlib.sha1(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha256":
+        return hashlib.sha256(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha224":
+        return hashlib.sha224(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha384":
+        return hashlib.sha384(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha512":
+        return hashlib.sha512(char_combo.encode("utf-8")).hexdigest()
 
-cracked = ""
-for combo in itertools.product(''.join(strings), repeat=user_input_len):
-    chars = ''.join(combo)
-    sys.stdout.write("\r \033[1;32m [+]Trying: %s %s \033[1;m"%(chars, cracked))
-    sys.stdout.flush()
+
+def combos(x):
+    global Loop_Break
     
-    char_combo = chars.strip()
+    for combo in itertools.product(''.join(strings), repeat=x):
+        chars = ''.join(combo)
+        #sys.stdout.write("\r\033[1;32m[+]Trying: %s Length: %s \033[1;m"%(chars, x))
+        #sys.stdout.write("\r\033[1;32m[+]Length: %s \033[1;m"%(x))
+        #sys.stdout.flush()
+        #print("\033[1;32m [+]Trying: %s Length: %s \033[1;m"% (chars, x))
+        
+        if Loop_Break:
+            exit()
+        
 
-    hashingmd5 = hashlib.md5(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppermd5 = hashingmd5.upper()
-    
-    hashingsha1 = hashlib.sha1(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppersha1 = hashingsha1.upper()
-    
-    hashingsha224 = hashlib.sha224(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppersha224 = hashingsha224.upper()
-    
-    hashingsha256 = hashlib.sha256(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppersha256 = hashingsha256.upper()
-    
-    hashingsha384 = hashlib.sha384(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppersha384 = hashingsha384.upper()
-    
-    hashingsha512 = hashlib.sha512(char_combo.encode("utf-8")).hexdigest()
-    hashing_uppersha512 = hashingsha512.upper()
-    #print("\033[1;32m Trying: {0}".format(pwd))
+        if crypto(chars.strip(), "md5") == args.Hash or crypto(chars.strip(), "md5").upper() == args.Hash:
+            counts = 0
+            print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
+            Loop_Break = True
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars.strip(), "sha1") == args.Hash or crypto(chars.strip(), "sha1").upper() == args.Hash:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars.strip(), "sha256") == args.Hash or crypto(chars.strip(), "sha256").upper() == args.Hash:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type:SHA256 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA256 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars.strip(), "sha224") == args.Hash or crypto(chars.strip(), "sha224").upper() == args.Hash:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type:SHA224 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA224 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars.strip(), "sha384") == args.Hash or crypto(chars.strip(), "sha384").upper() == args.Hash:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type:SHA384 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA384 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars.strip(), "sha512") == args.Hash or crypto(chars.strip(), "sha512").upper() == args.Hash:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type:SHA512 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA512 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
 
-    if hashingmd5 == user_input_hash or hashing_uppermd5 == user_input_hash:
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
-    if hashingsha1 == user_input_hash or hashing_uppersha1 == user_input_hash:
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
-    if hashingsha224 == user_input_hash or hashing_uppersha224 == user_input_hash:
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
-    if hashingsha256 == user_input_hash or hashing_uppersha256 == user_input_hash:
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
-    if hashingsha384 == user_input_hash or hashing_uppersha384 == user_input_hash:
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
-    if hashingsha512 == user_input_hash or hashing_uppersha512 == user_input_hash :
-        print("\033[1;36m Hash Cracked: {0}".format(chars))
-        break
 
+if __name__ == "__main__":
+    Loop_Break = False
+
+    try:
+        if len(sys.argv[1]) < 1:
+            print("Example: python pyforce.py -t [Threads] -l [First Length] -x [Second Length] -i [You're Hash]")
+            print("Type: python pyforce.py -h For More Info")
+            sys.exit()
+    except IndexError as error:
+        print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
+        print("Type: python pyforce.py -h For More Options")
+        sys.exit()
+    
+
+    parse = argparse.ArgumentParser(description="Brute Force")
+    parse.add_argument("-i", "--Hash", type=str, help="Enter The Hash")
+    parse.add_argument("-t", "--threads", type=int, help="Enter The Number of Threads/max workers")
+    parse.add_argument("-l", "--length0", type=int, help="Enter The First Length or single Length")
+    parse.add_argument("-x", "--length1", type=int, help="Enter The Second Length")
+    args = parse.parse_args()
+    print("\033[1;32m[+]Starting Script \033[1;m\n")
+
+    if args.threads != None:
+        pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.threads)
+        fs = [pool.submit(combos, x) for x in range(args.length0, args.length1+1)]
+        
+        for th in concurrent.futures.as_completed(fs):
+            sys.stdout.write("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.length0, args.length1, args.threads, args.Hash))
+            if Loop_Break:
+                pool.shutdown(wait=False)
+                sys.exit()
+    
+    elif args.threads == None:
+        try:
+            if args.length1 != None:
+                for x in range(args.length0, args.length1+1):
+                    if Loop_Break:
+                        break
+                    combos(x)
+            elif args.length1 == None:
+                combos(args.length0)    
+        except Exception as error:
+            print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
+            print("Type: python pyforce.py -h For More Options")
+            print(error)
+        
