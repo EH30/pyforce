@@ -133,6 +133,7 @@ if __name__ == "__main__":
         for th in concurrent.futures.as_completed(fs):
             threads_count += 1
             sys.stdout.write("\r\033[1;32m[+]Finished Thread: %d \033[1;m"%(threads_count))
+            sys.stdout.flush()
             if Loop_Break:
                 pool.shutdown(wait=False)
                 sys.exit()
