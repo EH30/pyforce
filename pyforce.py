@@ -6,15 +6,18 @@ import threading
 import concurrent.futures
 import argparse
 
-if sys.platform == "linux" or sys.platform == "linux2":
-    os.system("clear")
-
-elif sys.platform == "win32":
-    os.system("cls")
 
 strings = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', 'y',
 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z', 'Y', '/', '\ ', '.',
  ';', '"', "'", ']', '[', '+', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ':', '|', ',', '=', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*', '(' ,')'  '`', '~', ' ']
+
+
+
+def console_clear():
+    if sys.platform == "linux" or sys.platform == "linux2":
+        os.system("clear")
+    elif sys.platform == "win32":
+        os.system("cls")
 
 
 def crypto(char_combo, algorithm):
@@ -37,14 +40,9 @@ def combos(x):
     
     for combo in itertools.product(''.join(strings), repeat=x):
         chars = ''.join(combo)
-        #sys.stdout.write("\r\033[1;32m[+]Trying: %s Length: %s \033[1;m"%(chars, x))
-        #sys.stdout.write("\r\033[1;32m[+]Length: %s \033[1;m"%(x))
-        #sys.stdout.flush()
-        #print("\033[1;32m [+]Trying: %s Length: %s \033[1;m"% (chars, x))
-        
+
         if Loop_Break:
             exit()
-        
 
         if crypto(chars.strip(), "md5") == args.Hash or crypto(chars.strip(), "md5").upper() == args.Hash:
             counts = 0
@@ -114,14 +112,16 @@ if __name__ == "__main__":
         print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
         print("Type: python pyforce.py -h For More Options")
         sys.exit()
-    
 
-    parse = argparse.ArgumentParser(description="Brute Force")
+    
+    parse = argparse.ArgumentParser(description="Brute Force Options")
     parse.add_argument("-i", "--Hash", type=str, help="Enter The Hash")
     parse.add_argument("-t", "--threads", type=int, help="Enter The Number of Threads/max workers")
     parse.add_argument("-l", "--length0", type=int, help="Enter The First Length or single Length")
     parse.add_argument("-x", "--length1", type=int, help="Enter The Second Length")
     args = parse.parse_args()
+
+    console_clear()
     print("\033[1;32m[+]Starting Script \033[1;m\n")
 
     if args.threads != None:
