@@ -127,9 +127,12 @@ if __name__ == "__main__":
     if args.threads != None:
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.threads)
         fs = [pool.submit(combos, x) for x in range(args.length0, args.length1+1)]
-        
+        threads_count = 0
+
+        print("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.length0, args.length1, args.threads, args.Hash))
         for th in concurrent.futures.as_completed(fs):
-            sys.stdout.write("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.length0, args.length1, args.threads, args.Hash))
+            threads_count += 1
+            sys.stdout.write("\r\033[1;32m[+]Finished Thread: %d \033[1;m"%(threads_count))
             if Loop_Break:
                 pool.shutdown(wait=False)
                 sys.exit()
@@ -137,12 +140,16 @@ if __name__ == "__main__":
     elif args.threads == None:
         try:
             if args.length1 != None:
+                print("\r\033[1;32m[+]Trying Length: %d to %d Hash: %s \033[1;m"%(args.length0, args.length1, args.Hash))
                 for x in range(args.length0, args.length1+1):
+                    sys.stdout.write("\r\033[1;32m[+]Trying Characters Length: %d \033[1;m"%(x))
+                    sys.stdout.flush()
                     if Loop_Break:
                         break
                     combos(x)
             elif args.length1 == None:
-                combos(args.length0)    
+                print("\r\033[1;32m[+]Trying Length: %d Hash: %s \033[1;m"%(args.length0, args.Hash))
+                combos(args.length0)
         except Exception as error:
             print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
             print("Type: python pyforce.py -h For More Options")
