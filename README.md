@@ -11,7 +11,7 @@ usage: pyforce.py [-h] [-i HASH] [-t THREADS] [-l LENGTH0] [-x LENGTH1]
 
 Brute Force Options
 
-optional arguments:
+optional arguments:   
   -h, --help             show this help message and exit   
   -i HASH, --Hash HASH   Enter The Hash   
   -t THREADS, --threads  THREADS   
