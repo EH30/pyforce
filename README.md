@@ -13,13 +13,10 @@ Brute Force Options
 
 optional arguments:   
   -h, --help             show this help message and exit   
-  -i HASH, --Hash HASH   Enter The Hash   
-  -t THREADS, --threads  THREADS   
-                         Enter The Number of Threads/max workers   
-  -l LENGTH0, --length0  LENGTH0   
-                         Enter The First Length or single Length   
-  -x LENGTH1, --length1  LENGTH1   
-                         Enter The Second Length   
+  -i                     Enter The Hash   
+  -t                     Enter The Number of Threads/max workers   
+  -l                     Enter The First Length or single Length   
+  -x                     Enter The Second Length   
 
 # pyforce
 Simple Python script   this will try almost all character combinations to crack Hash 
