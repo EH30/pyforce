@@ -44,7 +44,7 @@ def combos(x):
         if Loop_Break:
             exit()
 
-        if crypto(chars.strip(), "md5") == args.Hash or crypto(chars.strip(), "md5").upper() == args.Hash:
+        if crypto(chars.strip(), "md5") == args.i or crypto(chars.strip(), "md5").upper() == args.i:
             counts = 0
             print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
             Loop_Break = True
@@ -53,7 +53,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha1") == args.Hash or crypto(chars.strip(), "sha1").upper() == args.Hash:
+        elif crypto(chars.strip(), "sha1") == args.i or crypto(chars.strip(), "sha1").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
@@ -62,7 +62,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha256") == args.Hash or crypto(chars.strip(), "sha256").upper() == args.Hash:
+        elif crypto(chars.strip(), "sha256") == args.i or crypto(chars.strip(), "sha256").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA256 Hash Cracked: {0}\033[1;m".format(chars))
@@ -71,7 +71,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha224") == args.Hash or crypto(chars.strip(), "sha224").upper() == args.Hash:
+        elif crypto(chars.strip(), "sha224") == args.i or crypto(chars.strip(), "sha224").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA224 Hash Cracked: {0}\033[1;m".format(chars))
@@ -80,7 +80,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha384") == args.Hash or crypto(chars.strip(), "sha384").upper() == args.Hash:
+        elif crypto(chars.strip(), "sha384") == args.i or crypto(chars.strip(), "sha384").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA384 Hash Cracked: {0}\033[1;m".format(chars))
@@ -89,7 +89,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha512") == args.Hash or crypto(chars.strip(), "sha512").upper() == args.Hash:
+        elif crypto(chars.strip(), "sha512") == args.i or crypto(chars.strip(), "sha512").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA512 Hash Cracked: {0}\033[1;m".format(chars))
@@ -115,21 +115,21 @@ if __name__ == "__main__":
 
     
     parse = argparse.ArgumentParser(description="Brute Force Options")
-    parse.add_argument("-i", "--Hash", type=str, help="Enter The Hash")
-    parse.add_argument("-t", "--threads", type=int, help="Enter The Number of Threads/max workers")
-    parse.add_argument("-l", "--length0", type=int, help="Enter The First Length or single Length")
-    parse.add_argument("-x", "--length1", type=int, help="Enter The Second Length")
+    parse.add_argument("-i", type=str, help="Enter The Hash")
+    parse.add_argument("-t", type=int, help="Enter The Number of Threads/max workers")
+    parse.add_argument("-l", type=int, help="Enter The First Length or single Length")
+    parse.add_argument("-x", type=int, help="Enter The Second Length")
     args = parse.parse_args()
 
     console_clear()
     print("\033[1;32m[+]Starting Script \033[1;m\n")
 
-    if args.threads != None:
-        pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.threads)
-        fs = [pool.submit(combos, x) for x in range(args.length0, args.length1+1)]
+    if args.t != None:
+        pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.t)
+        fs = [pool.submit(combos, x) for x in range(args.l, args.x+1)]
         threads_count = 0
 
-        print("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.length0, args.length1, args.threads, args.Hash))
+        print("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.l, args.x, args.t, args.i))
         for th in concurrent.futures.as_completed(fs):
             threads_count += 1
             sys.stdout.write("\r\033[1;32m[+]Finished Thread: %d \033[1;m"%(threads_count))
@@ -138,19 +138,19 @@ if __name__ == "__main__":
                 pool.shutdown(wait=False)
                 sys.exit()
     
-    elif args.threads == None:
+    elif args.t == None:
         try:
-            if args.length1 != None:
-                print("\r\033[1;32m[+]Trying Length: %d to %d Hash: %s \033[1;m"%(args.length0, args.length1, args.Hash))
-                for x in range(args.length0, args.length1+1):
+            if args.x != None:
+                print("\r\033[1;32m[+]Trying Length: %d to %d Hash: %s \033[1;m"%(args.l, args.x, args.i))
+                for x in range(args.l, args.x+1):
                     sys.stdout.write("\r\033[1;32m[+]Trying Characters Length: %d \033[1;m"%(x))
                     sys.stdout.flush()
                     if Loop_Break:
                         break
                     combos(x)
-            elif args.length1 == None:
-                print("\r\033[1;32m[+]Trying Length: %d Hash: %s \033[1;m"%(args.length0, args.Hash))
-                combos(args.length0)
+            elif args.x == None:
+                print("\r\033[1;32m[+]Trying Length: %d Hash: %s \033[1;m"%(args.l, args.i))
+                combos(args.l)
         except Exception as error:
             print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
             print("Type: python pyforce.py -h For More Options")
