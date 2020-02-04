@@ -55,7 +55,7 @@ def combos(x):
         if Loop_Break:
             exit()
 
-        if crypto(chars.strip(), "md5") == args.i or crypto(chars.strip(), "md5").upper() == args.i:
+        if crypto(chars, "md5") == args.i or crypto(chars, "md5").upper() == args.i:
             counts = 0
             print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
             Loop_Break = True
@@ -64,7 +64,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha1") == args.i or crypto(chars.strip(), "sha1").upper() == args.i:
+        elif crypto(chars, "sha1") == args.i or crypto(chars, "sha1").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
@@ -73,7 +73,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha256") == args.i or crypto(chars.strip(), "sha256").upper() == args.i:
+        elif crypto(chars, "sha256") == args.i or crypto(chars, "sha256").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA256 Hash Cracked: {0}\033[1;m".format(chars))
@@ -82,7 +82,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha224") == args.i or crypto(chars.strip(), "sha224").upper() == args.i:
+        elif crypto(chars, "sha224") == args.i or crypto(chars, "sha224").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA224 Hash Cracked: {0}\033[1;m".format(chars))
@@ -91,7 +91,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha384") == args.i or crypto(chars.strip(), "sha384").upper() == args.i:
+        elif crypto(chars, "sha384") == args.i or crypto(chars, "sha384").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA384 Hash Cracked: {0}\033[1;m".format(chars))
@@ -100,7 +100,7 @@ def combos(x):
                 counts+=1
             exit()
             break
-        elif crypto(chars.strip(), "sha512") == args.i or crypto(chars.strip(), "sha512").upper() == args.i:
+        elif crypto(chars, "sha512") == args.i or crypto(chars, "sha512").upper() == args.i:
             counts = 0
             Loop_Break = True
             print("\n\033[1;36m[+]Type:SHA512 Hash Cracked: {0}\033[1;m".format(chars))
