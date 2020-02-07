@@ -44,10 +44,26 @@ def crypto(char_combo, algorithm):
         return hashlib.sha384(char_combo.encode("utf-8")).hexdigest()
     elif algorithm == "sha512":
         return hashlib.sha512(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "blake2b":
+        return hashlib.blake2b(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "blake2s":
+        return hashlib.blake2s(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha3_224":
+        return hashlib.sha3_224(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha3_256":
+        return hashlib.sha3_256(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha3_384":
+        return hashlib.sha3_384(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "sha3_512":
+        return hashlib.sha3_512(char_combo.encode("utf-8")).hexdigest()
+    elif algorithm == "shake_128":
+        return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(64)
+    elif algorithm == "shake_256":
+        return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(128)
 
 
 def combos(x):
-    global Loop_Break
+    global Loop_Break, hashes
     
     for combo in itertools.product(''.join(strings), repeat=x):
         chars = ''.join(combo)
@@ -103,12 +119,85 @@ def combos(x):
         elif crypto(chars, "sha512") == args.i or crypto(chars, "sha512").upper() == args.i:
             counts = 0
             Loop_Break = True
-            print("\n\033[1;36m[+]Type:SHA512 Hash Cracked: {0}\033[1;m".format(chars))
+            print("\n\033[1;36m[+]Type: SHA512 Hash Cracked: {0}\033[1;m".format(chars))
             while counts < 1:
                 print("\n\033[1;36m[+]Type: SHA512 Hash Cracked: {0}\033[1;m".format(chars))
                 counts+=1
             exit()
             break
+        elif crypto(chars, "sha3_224") == args.i or crypto(chars, "sha3_224").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHA3_224 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA3_224 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "sha3_256") == args.i or crypto(chars, "sha3_256").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHA3_256 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA3_256 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "sha3_384") == args.i or crypto(chars, "sha3_384").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHA3_384 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA3_384 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "sha3_512") == args.i or crypto(chars, "sha3_512").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHA3_512 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHA3_512 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "shake_128") == args.i or crypto(chars, "shake_128").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHAKE_128 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHAKE_128 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "shake_256") == args.i or crypto(chars, "shake_256").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: SHAKE_256 Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: SHAKE_256 Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "blake2b") == args.i or crypto(chars, "blake2b").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: BKAKE2B Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: BLAKE2B Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+        elif crypto(chars, "blake2s") == args.i or crypto(chars, "blake2s").upper() == args.i:
+            counts = 0
+            Loop_Break = True
+            print("\n\033[1;36m[+]Type: BLAKE2S Hash Cracked: {0}\033[1;m".format(chars))
+            while counts < 1:
+                print("\n\033[1;36m[+]Type: BLAKE2S Hash Cracked: {0}\033[1;m".format(chars))
+                counts+=1
+            exit()
+            break
+
 
 
 if __name__ == "__main__":
