@@ -57,9 +57,9 @@ def crypto(char_combo, algorithm):
     elif algorithm == "sha3_512":
         return hashlib.sha3_512(char_combo.encode("utf-8")).hexdigest()
     elif algorithm == "shake_128":
-        return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(64)
+        return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
     elif algorithm == "shake_256":
-        return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(128)
+        return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
 
 
 def combos(x):
