@@ -57,9 +57,15 @@ def crypto(char_combo, algorithm):
     elif algorithm == "sha3_512":
         return hashlib.sha3_512(char_combo.encode("utf-8")).hexdigest()
     elif algorithm == "shake_128":
-        return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
+        if args.k == 1:
+            return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(64)
+        else:
+            return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
     elif algorithm == "shake_256":
-        return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
+        if args.k == 1:
+            return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(128)
+        else:
+            return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
 
 
 def combos(x):
@@ -219,6 +225,7 @@ if __name__ == "__main__":
     parse.add_argument("-t", type=int, help="Enter The Number of Threads/max workers")
     parse.add_argument("-l", type=int, help="Enter The First Length or single Length")
     parse.add_argument("-x", type=int, help="Enter The Second Length")
+    parse.add_argument("-k", type=int, help="Enter 1 if you don't want to try shake_128 and shake_256 to match hash length")
     args = parse.parse_args()
 
     console_clear()
