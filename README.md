@@ -1,6 +1,5 @@
 # Example
-<img src="https://github.com/EH30/pyforce/blob/master/pyforce_example1.JPG" >
-<img src="https://github.com/EH30/pyforce/blob/master/pyforce_example.JPG" >
+<img src="https://github.com/EH30/pyforce/blob/master/example.PNG" >
 
 
 # Usage
