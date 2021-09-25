@@ -1,11 +1,8 @@
-import os
 import sys
 import itertools
 import hashlib
-import threading
 import concurrent.futures
 import argparse
-
 
 strings = [
  'a', 'b', 'c', 'd', 'e', 'f', 'g',
@@ -22,13 +19,6 @@ strings = [
  '!', '@', '#', '$', '%', '^', '&', 
  '*', '(' ,')'  '`', '~', ' '
 ]
-
-
-def console_clear():
-    if sys.platform == "linux" or sys.platform == "linux2":
-        os.system("clear")
-    elif sys.platform == "win32":
-        os.system("cls")
 
 
 def crypto(char_combo, algorithm):
@@ -56,20 +46,9 @@ def crypto(char_combo, algorithm):
         return hashlib.sha3_384(char_combo.encode("utf-8")).hexdigest()
     elif algorithm == "sha3_512":
         return hashlib.sha3_512(char_combo.encode("utf-8")).hexdigest()
-    elif algorithm == "shake_128":
-        if args.k == 1:
-            return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(64)
-        else:
-            return hashlib.shake_128(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
-    elif algorithm == "shake_256":
-        if args.k == 1:
-            return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(128)
-        else:
-            return hashlib.shake_256(char_combo.encode("utf-8")).hexdigest(len(args.i)//2)
-
 
 def combos(x):
-    global Loop_Break, hashes
+    global Loop_Break, hashes, res
     
     for combo in itertools.product(''.join(strings), repeat=x):
         chars = ''.join(combo)
@@ -78,136 +57,57 @@ def combos(x):
             exit()
 
         if crypto(chars, "md5") == args.i or crypto(chars, "md5").upper() == args.i:
-            counts = 0
-            print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: MD5 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha1") == args.i or crypto(chars, "sha1").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA1 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha256") == args.i or crypto(chars, "sha256").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)           
             Loop_Break = True
-            print("\n\033[1;36m[+]Type:SHA256 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA256 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha224") == args.i or crypto(chars, "sha224").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type:SHA224 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA224 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha384") == args.i or crypto(chars, "sha384").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type:SHA384 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA384 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha512") == args.i or crypto(chars, "sha512").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA512 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA512 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha3_224") == args.i or crypto(chars, "sha3_224").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA3_224 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA3_224 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha3_256") == args.i or crypto(chars, "sha3_256").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA3_256 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA3_256 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha3_384") == args.i or crypto(chars, "sha3_384").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA3_384 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA3_384 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "sha3_512") == args.i or crypto(chars, "sha3_512").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHA3_512 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHA3_512 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
-        elif crypto(chars, "shake_128") == args.i or crypto(chars, "shake_128").upper() == args.i:
-            counts = 0
-            Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHAKE_128 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHAKE_128 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
-            exit()
-            break
-        elif crypto(chars, "shake_256") == args.i or crypto(chars, "shake_256").upper() == args.i:
-            counts = 0
-            Loop_Break = True
-            print("\n\033[1;36m[+]Type: SHAKE_256 Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: SHAKE_256 Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
-            exit()
-            break
         elif crypto(chars, "blake2b") == args.i or crypto(chars, "blake2b").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: BKAKE2B Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: BLAKE2B Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
         elif crypto(chars, "blake2s") == args.i or crypto(chars, "blake2s").upper() == args.i:
-            counts = 0
+            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
-            print("\n\033[1;36m[+]Type: BLAKE2S Hash Cracked: {0}\033[1;m".format(chars))
-            while counts < 1:
-                print("\n\033[1;36m[+]Type: BLAKE2S Hash Cracked: {0}\033[1;m".format(chars))
-                counts+=1
             exit()
-            break
-
-
 
 if __name__ == "__main__":
     Loop_Break = False
+    res = ""
 
     try:
         if len(sys.argv[1]) < 1:
@@ -225,10 +125,8 @@ if __name__ == "__main__":
     parse.add_argument("-t", type=int, help="Enter The Number of Threads/max workers")
     parse.add_argument("-l", type=int, help="Enter The First Length or single Length")
     parse.add_argument("-x", type=int, help="Enter The Second Length")
-    parse.add_argument("-k", type=int, help="Enter 1 if you don't want to try shake_128 and shake_256 to match hash length")
     args = parse.parse_args()
 
-    console_clear()
     print("\033[1;32m[+]Starting Script \033[1;m\n")
 
     if args.t != None:
@@ -236,19 +134,19 @@ if __name__ == "__main__":
         fs = [pool.submit(combos, x) for x in range(args.l, args.x+1)]
         threads_count = 0
 
-        print("\r\033[1;32m[+]Trying Length: %d to %d Threads: %d Hash: %s \033[1;m"%(args.l, args.x, args.t, args.i))
+        print("\r\033[1;32m[+]Trying Length: %d to %d || Threads: %d || Hash: %s \033[1;m"%(args.l, args.x, args.t, args.i))
         for th in concurrent.futures.as_completed(fs):
             threads_count += 1
-            sys.stdout.write("\r\033[1;32m[+]Finished Thread: %d \033[1;m"%(threads_count))
-            sys.stdout.flush()
             if Loop_Break:
+                print(res)
                 pool.shutdown(wait=False)
                 sys.exit()
+            print("\033[1;32m[+]Thread stopped trying next length\033[1;m")
     
     elif args.t == None:
         try:
             if args.x != None:
-                print("\r\033[1;32m[+]Trying Length: %d to %d Hash: %s \033[1;m"%(args.l, args.x, args.i))
+                print("\r\033[1;32m[+]Trying Length: %d to %d || Hash: %s \033[1;m"%(args.l, args.x, args.i))
                 for x in range(args.l, args.x+1):
                     sys.stdout.write("\r\033[1;32m[+]Trying Characters Length: %d \033[1;m"%(x))
                     sys.stdout.flush()
@@ -262,4 +160,3 @@ if __name__ == "__main__":
             print("Example: python pyforce.py -l [Length of letters to try] -i [You're Hash]")
             print("Type: python pyforce.py -h For More Options")
             print(error)
-        
