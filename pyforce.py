@@ -57,51 +57,51 @@ def combos(x):
             exit()
 
         if crypto(chars, "md5") == args.i or crypto(chars, "md5").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: MD5 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha1") == args.i or crypto(chars, "sha1").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA1 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha256") == args.i or crypto(chars, "sha256").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)           
+            res = "\n\033[1;36m[+]Type: SHA256 || Hash Cracked: [{0}]\033[1;m".format(chars)           
             Loop_Break = True
             exit()
         elif crypto(chars, "sha224") == args.i or crypto(chars, "sha224").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA224 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha384") == args.i or crypto(chars, "sha384").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA384 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha512") == args.i or crypto(chars, "sha512").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA512 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha3_224") == args.i or crypto(chars, "sha3_224").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA3_224 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha3_256") == args.i or crypto(chars, "sha3_256").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA3_256 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha3_384") == args.i or crypto(chars, "sha3_384").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA3_384 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "sha3_512") == args.i or crypto(chars, "sha3_512").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: SHA3_512 || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "blake2b") == args.i or crypto(chars, "blake2b").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: BLAKE2b || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
         elif crypto(chars, "blake2s") == args.i or crypto(chars, "blake2s").upper() == args.i:
-            res = "\n\033[1;36m[+]Type: MD5 Hash Cracked: [{0}]\033[1;m".format(chars)
+            res = "\n\033[1;36m[+]Type: BLAKE2s || Hash Cracked: [{0}]\033[1;m".format(chars)
             Loop_Break = True
             exit()
 
