@@ -1,8 +1,8 @@
 import sys
-import itertools
 import hashlib
-import concurrent.futures
 import argparse
+import itertools
+import concurrent.futures
 
 strings = [
  'a', 'b', 'c', 'd', 'e', 'f', 'g',
