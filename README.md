@@ -18,7 +18,7 @@ optional arguments:
   -x                     Enter The Second Length   
 
 # pyforce
-Simple Python script   this will try almost all character combinations to crack Hash 
+Simple Python script to crack Hash 
 
 
 Works on python3   
