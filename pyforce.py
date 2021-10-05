@@ -105,10 +105,16 @@ def combos(x, hashed, thash):
 
 def launch_pad(hashed):
     global res, Loop_Break
+    thash = None
+    try:
+        thash = hash_length[len(hashed)]
+    except KeyError:
+        print("[-]error: Unknown Hash length")
+        sys.exit()
 
     if args.t != None:
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.t)
-        fs = [pool.submit(combos, x,  hashed, hash_length[len(hashed)]) for x in range(args.l, args.x+1)]
+        fs = [pool.submit(combos, x,  hashed, thash) for x in range(args.l, args.x+1)]
         threads_count = 0
 
         print("\r[*]Trying Length: %d to %d || Threads: %d || Hash: %s"%(args.l, args.x, args.t, hashed))
@@ -129,10 +135,10 @@ def launch_pad(hashed):
                     sys.stdout.flush()
                     if Loop_Break:
                         break
-                    combos(x, hashed, hash_length[len(hashed)])
+                    combos(x, hashed, thash)
             elif args.x == None:
                 print("\r[*]Trying Length: %d Hash: %s"%(args.l, hashed))
-                combos(args.l, hashed, hash_length[len(hashed)])
+                combos(args.l, hashed, thash)
             
             if res != None:
                 print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
