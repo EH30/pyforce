@@ -102,10 +102,9 @@ def combos(x, hashed, thash):
                 return 0
     return 1
 
-
 def launch_pad(hashed):
     global res, Loop_Break
-    thash = None
+    
     try:
         thash = hash_length[len(hashed)]
     except KeyError:
