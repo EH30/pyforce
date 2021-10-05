@@ -22,6 +22,12 @@ strings = [
  '*', '(' ,')'  '`', '~', ' '
 ]
 
+hash_length = { 
+    32: ["md5"], 40: ["sha1"], 56: ["sha224", "sha3_224"], 
+    64: ["sha256", "sha3_256", "blake2s"], 96: ["sha384", "sha3_384"], 
+    128: ["sha512", "sha3_512", "blake2b"]
+}
+
 def load_data(filename):
     global jdata
     try:
@@ -80,7 +86,7 @@ def crypto(char_combo, algorithm):
     elif algorithm == "sha3_512":
         return hashlib.sha3_512(char_combo.encode("utf-8")).hexdigest()
 
-def combos(x, hashed):
+def combos(x, hashed, thash):
     global Loop_Break, hashes, res
     
     for combo in itertools.product(''.join(strings), repeat=x):
@@ -88,55 +94,12 @@ def combos(x, hashed):
 
         if Loop_Break:
             exit()
-
-        if crypto(chars, "md5").lower() == hashed:
-            res = ["MD5", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha1").lower() == hashed:
-            res = ["SHA1", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha256").lower() == hashed:
-            res = ["SHA256", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha224").lower() == hashed:
-            res = ["SHA224", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha384").lower() == hashed:
-            res = ["SHA384", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha512").lower() == hashed:
-            res = ["SHA512", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha3_224").lower() == hashed:
-            res = ["SHA3_224", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha3_256").lower() == hashed:
-            res = ["SHA3_256", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha3_384").lower() == hashed:
-            res = ["SHA3_384", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "sha3_512").lower() == hashed:
-            res = ["SHA3_512", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "blake2b").lower() == hashed:
-            res = ["BLAKE2b", chars]
-            Loop_Break = True
-            return 0
-        elif crypto(chars, "blake2s").lower() == hashed:
-            res = ["BLAKE2s", chars]
-            Loop_Break = True
-            return 0
+        
+        for item in thash:
+            if crypto(chars, item).lower() == hashed:
+                res = [item, chars]
+                Loop_Break = True
+                return 0
     return 1
 
 
@@ -145,7 +108,7 @@ def launch_pad(hashed):
 
     if args.t != None:
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.t)
-        fs = [pool.submit(combos, x,  hashed) for x in range(args.l, args.x+1)]
+        fs = [pool.submit(combos, x,  hashed, hash_length[len(hashed)]) for x in range(args.l, args.x+1)]
         threads_count = 0
 
         print("\r[*]Trying Length: %d to %d || Threads: %d || Hash: %s"%(args.l, args.x, args.t, hashed))
@@ -166,10 +129,10 @@ def launch_pad(hashed):
                     sys.stdout.flush()
                     if Loop_Break:
                         break
-                    combos(x,hashed)
+                    combos(x, hashed, hash_length[len(hashed)])
             elif args.x == None:
                 print("\r[*]Trying Length: %d Hash: %s"%(args.l, hashed))
-                combos(args.l, hashed)
+                combos(args.l, hashed, hash_length[len(hashed)])
             
             if res != None:
                 print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
