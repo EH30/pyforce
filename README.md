@@ -3,7 +3,7 @@
 
 
 # Usage
-usage: pyforce.py [-h] [-i HASH] [-t THREADS] [-l LENGTH0] [-x LENGTH1]
+usage: pyforce.py [-h HELP COMMAND] [-i HASH] [-t THREADS] [-l STARTING LENGTH] [-x ENDING LENGTH]
 
 Options
 
