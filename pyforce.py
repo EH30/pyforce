@@ -249,16 +249,16 @@ if __name__ == "__main__":
 
         with open(args.f, "r") as opn:
             for line in opn:
-                data = line.strip()
+                data = line.strip().lower()
                 if len(data) == 0:
                     continue
                 
-                temp = find_cracked(args.i, jdata, args.s)
+                temp = find_cracked(data, jdata, args.s)
                 if temp != -1 and temp != None:
                     print(temp)
                     continue
 
-                launch_pad(data.lower())
+                launch_pad(data)
                 if res != None:
                     store_data(file_data, data, res[0], res[1])
                 res = None
@@ -267,17 +267,17 @@ if __name__ == "__main__":
     elif args.w != None:
 
         if args.i != None:
-            thash = check_thash(args.i)
+            thash = check_thash(args.i.lower())
             if thash == None:
                 print("[-]error: Unknown Hash length")
                 sys.exit()
             
-            temp = find_cracked(args.i, jdata, args.s)
+            temp = find_cracked(args.i.lower(), jdata, args.s)
             if temp != -1 and temp != None:
                 print(temp)
                 sys.exit()
             
-            wlist_crack(args.i, args.w, thash)
+            wlist_crack(args.i.lower(), args.w, thash)
             if res != None:
                 print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
                 store_data(file_data, args.i, res[0], res[1])
@@ -292,17 +292,16 @@ if __name__ == "__main__":
             
             with open(args.f, "r") as opn:
                 for line in opn:
-                    line = line.strip()
+                    line = line.strip().lower()
+                    
+                    thash = check_thash(line)
+                    if thash == None:
+                        print("[-]error: Unknown Hash length")
                     
                     temp = find_cracked(line, jdata, args.s)
                     if temp != -1 and temp != None:
                         print(temp)
                         continue
-
-                    thash = check_thash(line)
-                    if thash == None:
-                        print("[-]error: Unknown Hash length")
-                        sys.exit()
                     
                     wlist_crack(line, args.w, thash)
                     if res != None:
