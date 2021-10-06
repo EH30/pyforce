@@ -124,7 +124,7 @@ def combos(x, hashed, thash):
 def wlist_crack(hashed, wlist, thash):
     global Loop_Break, res
     count = 0
-    with open(wlist, "r") as opn:
+    with open(wlist, "r", errors="ignore") as opn:
         for line in opn:
             sys.stdout.write("\r[*]Trying Line: %d"%(count))
             sys.stdout.flush()
@@ -281,7 +281,7 @@ if __name__ == "__main__":
             if res != None:
                 print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
                 store_data(file_data, args.i, res[0], res[1])
-        else:
+        elif args.f != None:
             if not os.path.isfile(args.f):
                 print("[-]File does not exists")
                 sys.exit()
