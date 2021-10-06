@@ -3,9 +3,6 @@
 
 
 # Usage
-
-python pyforce.py -l [The Lenght of Character combinations] -i [You're Hash]
-
 usage: pyforce.py [-h] [-i HASH] [-t THREADS] [-l LENGTH0] [-x LENGTH1]
 
 Options
