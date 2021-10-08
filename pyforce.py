@@ -28,7 +28,8 @@ hash_length = {
     56: ["sha224", "sha3_224", "hmac-sha224", "hmac-sha3_224"], 
     64: ["sha256", "sha3_256", "blake2s", "hmac-sha256", "hmac-sha3_256", "hmac-blake2s"],
     96: ["sha384", "sha3_384", "hmac-sha384", "hmac-sha3_384"], 
-    128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"]
+    128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"],
+    60: ["bcrypt"]
 }
 
 hash_list = [
@@ -88,10 +89,9 @@ def check_thash(hashed):
     except KeyError:
         return None
 
-def check_sp_hash(hashed):
-    if hashed in sp_hash:
+def check_sp_hash(hashed, thash):
+    if thash[0] in sp_hash:
         return hashed
-    
     return hashed.upper()
 
 def print_cracked(res):
@@ -180,11 +180,11 @@ def launch_pad_wwlist(hashlist, wlist):
     thash = None
     with open(hashlist, "r") as opn:
         for line in opn:
-            line = check_sp_hash(line.strip())
-            
             thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
+            
+            line = line.strip()
             
             temp = find_cracked(line, jdata, args.s)
             if temp != -1 and temp != None:
@@ -217,13 +217,8 @@ def launch_pad_wlist(hashed):
         print_cracked(res)
         store_data(file_data, hashed, res[0], res[1])
 
-def launch_pad_force(hashed):
+def launch_pad_force(hashed, thash):
     global res, Loop_Break
-    
-    thash = check_thash(hashed)
-    if thash == None:
-        print("[-]error: Unknown Hash length")
-        sys.exit()
 
     if args.t != None:
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=args.t)
@@ -276,7 +271,13 @@ def laucnh_pad_hash_list(filename):
 
     with open(filename, "r") as opn:
         for line in opn:
-            line = check_sp_hash(line.strip())
+            thash = check_thash(hashed)
+            if thash == None:
+                print("[-]error: Unknown Hash length")
+                sys.exit()
+            
+            line = check_sp_hash(line.strip(), thash)
+
             if len(line) == 0:
                 continue
             
@@ -354,16 +355,26 @@ if __name__ == "__main__":
         laucnh_pad_hash_list(args.f)
     elif args.w != None:
         if args.i != None:
-            launch_pad_wlist(check_sp_hash(args.i))
+            thash = check_thash(args.i)
+            if thash == None:
+                print("[-]error: Unknown Hash length")
+                sys.exit()
+
+            launch_pad_wlist(check_sp_hash(args.i, thash))
         elif args.f != None:
             launch_pad_wwlist(args.f, args.w)
     else:
-        hashed = check_sp_hash(args.i)
+        thash = check_thash(args.i)
+        if thash == None:
+            print("[-]error: Unknown Hash length")
+            sys.exit()
+        
+        hashed = check_sp_hash(args.i, thash)
         temp = find_cracked(hashed, jdata, args.s)
         if temp != -1 and temp != None:
             print(temp)
             sys.exit()
         
-        launch_pad_force(hashed)
+        launch_pad_force(hashed, thash)
         if res != None:
             store_data(file_data, hashed, res[0], res[1])
