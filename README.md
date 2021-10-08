@@ -1,6 +1,13 @@
 # Example
 <img src="https://github.com/EH30/pyforce/blob/master/example.PNG" >
 
+BruteForce / WordList
+----------------------
+
+Example 1: python pyforce.py -i hash_here -t number_of_threads_here -l starting_length -x ending_length   
+Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
+Example 3: python pyforce.py -i hash_here -w wordlist_here   
+
 
 # Usage
 usage: pyforce.py [-h HELP COMMAND] [-i HASH] [-t THREADS] [-l STARTING LENGTH] [-x ENDING LENGTH]
@@ -16,13 +23,6 @@ optional arguments:
 
 # pyforce
 Simple Python script to crack Hash 
-
-BruteForce / WordList
-----------------------
-
-Example 1: python pyforce.py -i hash_here -t number_of_threads_here -l starting_length -x ending_length   
-Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
-Example 3: python pyforce.py -i hash_here -w wordlist_here   
 
 Works on python3   
 ---------------------   

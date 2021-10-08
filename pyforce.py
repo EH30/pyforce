@@ -24,12 +24,23 @@ characters = [
 
 sp_hash = []
 hash_length = { 
-    32: ["md4", "md5", "hmac-md4", "hmac-md5"], 40: ["sha1", "hmac-sha1"], 
+    32: ["md4", "md5", "hmac-md4", "hmac-md5", "ntlm"], 40: ["sha1", "hmac-sha1"], 
     56: ["sha224", "sha3_224", "hmac-sha224", "hmac-sha3_224"], 
     64: ["sha256", "sha3_256", "blake2s", "hmac-sha256", "hmac-sha3_256", "hmac-blake2s"],
     96: ["sha384", "sha3_384", "hmac-sha384", "hmac-sha3_384"], 
     128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"]
 }
+
+hash_list = [
+    "md4", "md5", "sha1", "sha224", "sha3_224", 
+    "sha256", "sha3_256", "blake2s", "sha384", 
+    "sha512", "sha3_512", "blake2b", "sha3_384",
+    "hmac-md4", "hmac-md5", "hmac-sha1", "hmac-sha224", 
+    "hmac-sha3_224", "hmac-sha256", "hmac-sha3_256", 
+    "hmac-blake2s", "hmac-sha384", "hmac-sha512", 
+    "hmac-sha3_512", "hmac-blake2b", "hmac-sha3_384",
+    "ntlm"
+]
 
 def load_data(filename):
     global jdata
@@ -67,7 +78,7 @@ def check_thash(hashed):
     try:
         if selected_thash != None:
             temp = selected_thash.strip().lower()
-            if temp in c_hash.hash_a or temp in c_hash.hash_b or temp in sp_hash:
+            if temp in hash_list:
                 return [temp]
             print("[-]Unknown Hash Type: {0}".format(selected_thash))
             sys.exit()
@@ -81,7 +92,7 @@ def check_sp_hash(hashed):
     if hashed in sp_hash:
         return hashed
     
-    return hashed.lower()
+    return hashed.upper()
 
 def print_cracked(res):
     global salt
