@@ -114,7 +114,7 @@ def find_cracked(hashed, jdata, skip):
     if skip != None and skip == 1:
         return -1
     else:
-        temp = is_cracked(jdata, hashed.lower())
+        temp = is_cracked(jdata, hashed.upper())
         if temp[0] != None:
             if temp[2] != None:
                 return "[*]Found: {0} || Salt: {1} || Cracked: [{2}] || Hash: {3} ".format(temp[0], temp[2], temp[1], hashed)
