@@ -47,6 +47,7 @@ def help_command():
     Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
     Example 3: python pyforce.py -i hash_here -w wordlist_here
     """
+
 def load_data(filename):
     global jdata
     
