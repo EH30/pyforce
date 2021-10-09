@@ -31,7 +31,6 @@ hash_length = {
     128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"],
     60: ["bcrypt"]
 }
-
 hash_list = [
     "md4", "md5", "sha1", "sha224", "sha3_224", 
     "sha256", "sha3_256", "blake2s", "sha384", 
@@ -57,12 +56,18 @@ def load_data(filename):
             opn.write("{}")
         opn.close()
 
+def check_sp_hash(hashed, thash):
+    if thash in sp_hash:
+        return hashed
+    
+    return hashed.upper()
+
 def store_data(filename, hashed, h_type, val):
     global jdata, salt
 
     try:
         with open(filename, "r+") as opn:
-            jdata[hashed] = [h_type, val, salt if salt != None else None]
+            jdata[hashed.upper()] = [h_type, val, salt if salt != None else None]
             opn.seek(0)
             json.dump(jdata, opn, indent=4)
             opn.truncate()
@@ -89,11 +94,6 @@ def check_thash(hashed):
     except KeyError:
         return None
 
-def check_sp_hash(hashed, thash):
-    if thash[0] in sp_hash:
-        return hashed
-    return hashed.upper()
-
 def print_cracked(res):
     global salt
 
@@ -103,7 +103,6 @@ def print_cracked(res):
         return 
 
     print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
-
 
 def is_cracked(data, hashed):
     if hashed in data:
@@ -133,7 +132,7 @@ def combos(x, hashed, thash):
             exit()
         
         for item in thash:
-            if c_hash.launch_check_hash(chars, hashed, item, salt):
+            if c_hash.launch_check_hash(chars, check_sp_hash(hashed, item), item, salt):
                 res = [item, chars]
                 Loop_Break = True
                 return 0
@@ -154,11 +153,11 @@ def wlist_crack(hashed, wlist, thash):
 
             line_strip = line.strip()
             for item in thash:
-                if c_hash.launch_check_hash(line_strip, hashed, item, salt):
+                if c_hash.launch_check_hash(line_strip, check_sp_hash(hashed, item), item, salt):
                     res = [item, line_strip]
                     Loop_Break = True
                     break
-                elif c_hash.launch_check_hash(line, hashed, item, salt):
+                elif c_hash.launch_check_hash(line, check_sp_hash(hashed, item), item, salt):
                     res = [item, line]
                     Loop_Break = True
                     break
@@ -180,11 +179,12 @@ def launch_pad_wwlist(hashlist, wlist):
     thash = None
     with open(hashlist, "r") as opn:
         for line in opn:
+            line = line.strip()
             thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
+                continue
             
-            line = line.strip()
             
             temp = find_cracked(line, jdata, args.s)
             if temp != -1 and temp != None:
@@ -271,13 +271,12 @@ def laucnh_pad_hash_list(filename):
 
     with open(filename, "r") as opn:
         for line in opn:
-            thash = check_thash(hashed)
+            line = line.strip()
+            thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
-                sys.exit()
+                continue
             
-            line = check_sp_hash(line.strip(), thash)
-
             if len(line) == 0:
                 continue
             
@@ -286,7 +285,7 @@ def laucnh_pad_hash_list(filename):
                 print(temp)
                 continue
 
-            launch_pad_force(line)
+            launch_pad_force(line, thash)
             if res != None:
                 store_data(file_data, line, res[0], res[1])
             
@@ -360,7 +359,7 @@ if __name__ == "__main__":
                 print("[-]error: Unknown Hash length")
                 sys.exit()
 
-            launch_pad_wlist(check_sp_hash(args.i, thash))
+            launch_pad_wlist(args.i)
         elif args.f != None:
             launch_pad_wwlist(args.f, args.w)
     else:
@@ -369,7 +368,7 @@ if __name__ == "__main__":
             print("[-]error: Unknown Hash length")
             sys.exit()
         
-        hashed = check_sp_hash(args.i, thash)
+        hashed = args.i
         temp = find_cracked(hashed, jdata, args.s)
         if temp != -1 and temp != None:
             print(temp)

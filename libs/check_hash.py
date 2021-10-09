@@ -18,7 +18,7 @@ class CheckHash:
         if algorithm in self.hash_a:
             return hashlib.new(algorithm, char_combo.encode("utf-8")).hexdigest().upper() == hashed
         elif salt_key != None and algorithm in self.hash_b:
-            return hmac.new(bytes(salt_key, "utf-8"), bytes(char_combo, "utf-8"), algorithm).hexdigest().upper() == hashed
+            return hmac.new(bytes(salt_key, "utf-8"), bytes(char_combo, "utf-8"), algorithm.split("-")[1]).hexdigest().upper() == hashed
         elif algorithm == "ntlm":
             return hashlib.new('md4', char_combo.encode('utf-16le')).hexdigest().upper() == hashed
         
