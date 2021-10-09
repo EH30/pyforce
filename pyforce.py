@@ -29,7 +29,6 @@ hash_length = {
     64: ["sha256", "sha3_256", "blake2s", "hmac-sha256", "hmac-sha3_256", "hmac-blake2s"],
     96: ["sha384", "sha3_384", "hmac-sha384", "hmac-sha3_384"], 
     128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"],
-    60: ["bcrypt"]
 }
 hash_list = [
     "md4", "md5", "sha1", "sha224", "sha3_224", 
