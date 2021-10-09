@@ -41,6 +41,12 @@ hash_list = [
     "ntlm"
 ]
 
+def help_command():
+    return """
+    Example 1: python pyforce.py -i hash_here -t number_of_threads_here -l starting_length -x ending_length   
+    Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
+    Example 3: python pyforce.py -i hash_here -w wordlist_here
+    """
 def load_data(filename):
     global jdata
     
@@ -98,7 +104,7 @@ def print_cracked(res):
 
     if salt != None and res[0] in c_hash.hash_a:
         print("[*]salt: {0}".format(salt))
-        print("\n[*]Type: {0} || Hash Cracked: [{1}] or [{2}]".format(res[0], res[1]+salt, salt+res[1]))
+        print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
         return 
 
     print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
@@ -312,7 +318,7 @@ if __name__ == "__main__":
         print("Type: python pyforce.py -h For More Options")
         sys.exit()
     
-    parse = argparse.ArgumentParser(description="Options")
+    parse = argparse.ArgumentParser(description="Example\n{0}".format(help_command()), formatter_class=argparse.RawTextHelpFormatter)
     parse.add_argument("-i", type=str, help="Enter the hash")
     parse.add_argument("-f", type=str, help="Enter the file fame with list of hash (Example: list_of_hash.txt)")
     parse.add_argument("-w", type=str, help="Enter the wordlist ( If you use this then you can't use -t, -l and x )")
