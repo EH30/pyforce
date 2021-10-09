@@ -319,7 +319,7 @@ if __name__ == "__main__":
         print("Type: python pyforce.py -h For More Options")
         sys.exit()
     
-    parse = argparse.ArgumentParser(description="Example\n{0}".format(help_command()), formatter_class=argparse.RawTextHelpFormatter)
+    parse = argparse.ArgumentParser(description="Examples:\n{0}".format(help_command()), formatter_class=argparse.RawTextHelpFormatter)
     parse.add_argument("-i", type=str, help="Enter the hash")
     parse.add_argument("-f", type=str, help="Enter the file fame with list of hash (Example: list_of_hash.txt)")
     parse.add_argument("-w", type=str, help="Enter the wordlist ( If you use this then you can't use -t, -l and x )")
