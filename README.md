@@ -3,6 +3,7 @@
 
 BruteForce / WordList
 ----------------------
+Works on python3   
 
 Example 1: python pyforce.py -i hash_here -t number_of_threads_here -l starting_length -x ending_length   
 Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
