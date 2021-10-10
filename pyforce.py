@@ -194,7 +194,7 @@ def launch_pad_wwlist(hashlist, wlist):
             thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
-                print("[-]Try selecting the hash -d [hash type]")
+                print("[-]Try selecting the hash type -d [hash type]")
                 continue
             
             
@@ -217,7 +217,7 @@ def launch_pad_wlist(hashed):
     thash = check_thash(hashed)
     if thash == None:
         print("[-]error: Unknown Hash length")
-        print("[-]Try selecting the hash -d [hash type]")
+        print("[-]Try selecting the hash type -d [hash type]")
         sys.exit()
     
     temp = find_cracked(hashed, jdata, args.s)
@@ -288,6 +288,7 @@ def laucnh_pad_hash_list(filename):
             thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
+                print("[-]Try selecting the hash type -d [hash type]")
                 continue
             
             if len(line) == 0:
@@ -370,7 +371,7 @@ if __name__ == "__main__":
             thash = check_thash(args.i)
             if thash == None:
                 print("[-]error: Unknown Hash length")
-                print("[-]Try selecting the hash -d [hash type]")
+                print("[-]Try selecting the hash type -d [hash type]")
                 sys.exit()
 
             launch_pad_wlist(args.i)
@@ -380,7 +381,7 @@ if __name__ == "__main__":
         thash = check_thash(args.i)
         if thash == None:
             print("[-]error: Unknown Hash length")
-            print("[-]Try selecting the hash -d [hash type]")
+            print("[-]Try selecting the hash type -d [hash type]")
             sys.exit()
         
         hashed = args.i
