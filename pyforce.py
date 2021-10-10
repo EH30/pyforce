@@ -22,12 +22,12 @@ characters = [
  '*', '(' ,')'  '`', '~', ' '
 ]
 
-sp_hash = []
+sp_hash = ["bcrypt"]
 hash_length = { 
     32: ["md4", "md5", "hmac-md4", "hmac-md5", "ntlm"], 40: ["sha1", "hmac-sha1"], 
-    56: ["sha224", "sha3_224", "hmac-sha224", "hmac-sha3_224"], 
+    56: ["sha224", "sha3_224", "hmac-sha224", "hmac-sha3_224"],
+    96: ["sha384", "sha3_384", "hmac-sha384", "hmac-sha3_384"],
     64: ["sha256", "sha3_256", "blake2s", "hmac-sha256", "hmac-sha3_256", "hmac-blake2s"],
-    96: ["sha384", "sha3_384", "hmac-sha384", "hmac-sha3_384"], 
     128: ["sha512", "sha3_512", "blake2b", "hmac-sha512", "hmac-sha3_512", "hmac-blake2b"]
 }
 hash_list = [
@@ -38,14 +38,19 @@ hash_list = [
     "hmac-sha3_224", "hmac-sha256", "hmac-sha3_256", 
     "hmac-blake2s", "hmac-sha384", "hmac-sha512", 
     "hmac-sha3_512", "hmac-blake2b", "hmac-sha3_384",
-    "ntlm"
+    "ntlm", "bcrypt"
 ]
 
 def help_command():
     return """
     Example 1: python pyforce.py -i hash_here -t number_of_threads_here -l starting_length -x ending_length   
     Example 2: python pyforce.py -f list_of_hash.txt -t number_of_threads_here -l starting_length -x ending_length   
-    Example 3: python pyforce.py -i hash_here -w wordlist_here
+    Example 3: python pyforce.py -i hash_here -l starting_length -x ending_length -d hash_type   
+    Example 4: python pyforce.py -i hash_here -w wordlist_here   
+    Example 5: python pyforce.py -i hash_here -l length   \n
+    \rHash Types: md5, sha1, sha224, sha256, sha384, sha512, blake2b, blake2s, sha3_224, sha3_256, 
+    sha3_384, sha3_512, hmac-md4, hmac-md5, hmac-sha1, hmac-sha224, hmac-sha3_224, hmac-sha256, 
+    hmac-sha3_256, hmac-blake2s, hmac-sha384, hmac-sha512, hmac-sha3_512, hmac-blake2b, hmac-sha3_384 and bcrypt  
     """
 
 def load_data(filename):
@@ -103,9 +108,9 @@ def check_thash(hashed):
 def print_cracked(res):
     global salt
 
-    if salt != None and res[0] in c_hash.hash_a:
-        print("[*]salt: {0}".format(salt))
-        print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
+    if salt != None:
+        print("\n[*]salt: {0}".format(salt))
+        print("\r[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
         return 
 
     print("\n[*]Type: {0} || Hash Cracked: [{1}]".format(res[0], res[1]))
@@ -189,6 +194,7 @@ def launch_pad_wwlist(hashlist, wlist):
             thash = check_thash(line)
             if thash == None:
                 print("[-]error: Unknown Hash length")
+                print("[-]Try selecting the hash -d [hash type]")
                 continue
             
             
@@ -211,6 +217,7 @@ def launch_pad_wlist(hashed):
     thash = check_thash(hashed)
     if thash == None:
         print("[-]error: Unknown Hash length")
+        print("[-]Try selecting the hash -d [hash type]")
         sys.exit()
     
     temp = find_cracked(hashed, jdata, args.s)
@@ -320,15 +327,15 @@ if __name__ == "__main__":
         sys.exit()
     
     parse = argparse.ArgumentParser(description="Examples:\n{0}".format(help_command()), formatter_class=argparse.RawTextHelpFormatter)
-    parse.add_argument("-i", type=str, help="Enter the hash")
-    parse.add_argument("-f", type=str, help="Enter the file fame with list of hash (Example: list_of_hash.txt)")
+    parse.add_argument("-i", type=str, help="Enter the hash ( Example: -i enter_the_hash )")
+    parse.add_argument("-f", type=str, help="Enter the file fame with list of hash ( Example: list_of_hash.txt )")
     parse.add_argument("-w", type=str, help="Enter the wordlist ( If you use this then you can't use -t, -l and x )")
-    parse.add_argument("-d", type=str, help="Enter the type of the hash you want to crack (md5, sha1 ...) ")
-    parse.add_argument("-t", type=int, help="Enter the number of threads/max workers")
-    parse.add_argument("-l", type=int, help="Enter the starting length")
-    parse.add_argument("-x", type=int, help="Enter the ending length")
-    parse.add_argument("-sl", type=str, help="Enter salt")
-    parse.add_argument("-s", type=int, help="-s 1 will skip checking for already cracked hash")
+    parse.add_argument("-d", type=str, help="Enter the type of the hash you want to crack ( Hash Types: md5, sha1 ... ) ")
+    parse.add_argument("-t", type=int, help="Enter the number of threads/max workers ( Example: -t Number_of_threads )")
+    parse.add_argument("-l", type=int, help="Enter the starting length ( Example: -l min_length )")
+    parse.add_argument("-x", type=int, help="Enter the ending length ( Example: -x max_length )")
+    parse.add_argument("-sl", type=str, help="Enter salt( Example: -sl the_salt_here )")
+    parse.add_argument("-s", type=int, help="-s 1 it will skip checking for previously cracked hash in %s"%(file_data))
     args = parse.parse_args()
 
     print("[*]Starting Script\n")
@@ -363,6 +370,7 @@ if __name__ == "__main__":
             thash = check_thash(args.i)
             if thash == None:
                 print("[-]error: Unknown Hash length")
+                print("[-]Try selecting the hash -d [hash type]")
                 sys.exit()
 
             launch_pad_wlist(args.i)
@@ -372,6 +380,7 @@ if __name__ == "__main__":
         thash = check_thash(args.i)
         if thash == None:
             print("[-]error: Unknown Hash length")
+            print("[-]Try selecting the hash -d [hash type]")
             sys.exit()
         
         hashed = args.i
