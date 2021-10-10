@@ -13,7 +13,7 @@ Example 5: python pyforce.py -i hash_here -l length
 
 
 # Usage
-pip3 install requirements.txt   
+pip3 install -r requirements.txt   
 python pyforce.py -h   
 
 # pyforce
