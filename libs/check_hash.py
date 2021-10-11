@@ -29,8 +29,7 @@ class CheckHash:
     def launch_check_hash(self, chars, hashed, algo, salt_key):
         if salt_key != None:
             if algo in self.hash_a or algo in self.add_salt:
-                if self.check_hash(chars+salt_key, hashed, algo, None) or self.check_hash(salt_key+chars, hashed, algo, None):
+                if self.check_hash(chars+salt_key, hashed, algo, None) or self.check_hash(salt_key+chars, hashed, algo, None) or self.check_hash(salt_key+chars+salt_key, hashed, algo, None):
                     return True
-            return False
         
         return self.check_hash(chars, hashed, algo, salt_key)

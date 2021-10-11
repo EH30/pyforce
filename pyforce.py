@@ -48,7 +48,7 @@ def help_command():
     Example 3: python pyforce.py -i hash_here -l starting_length -x ending_length -d hash_type   
     Example 4: python pyforce.py -i hash_here -w wordlist_here   
     Example 5: python pyforce.py -i hash_here -l length   \n
-    \rHash Types: md5, sha1, sha224, sha256, sha384, sha512, blake2b, blake2s, sha3_224, sha3_256, 
+    \rHash Types: md4, md5, sha1, sha224, sha256, sha384, sha512, blake2b, blake2s, sha3_224, sha3_256, 
     sha3_384, sha3_512, hmac-md4, hmac-md5, hmac-sha1, hmac-sha224, hmac-sha3_224, hmac-sha256, 
     hmac-sha3_256, hmac-blake2s, hmac-sha384, hmac-sha512, hmac-sha3_512, hmac-blake2b, hmac-sha3_384 and bcrypt  
     """
@@ -89,9 +89,13 @@ def store_data(filename, hashed, h_type, val):
         opn.write("{}")
         opn.close()
 
-def check_thash(hashed):
-    global selected_thash
+def is_bcrypt(hashed):
+    if len(hashed) == 60 and hashed[0] == "$" and hashed[1] == "2":
+        return True
+    
+    return False
 
+def check_thash(hashed, selected_thash):
     try:
         if selected_thash != None:
             temp = selected_thash.strip().lower()
@@ -99,7 +103,10 @@ def check_thash(hashed):
                 return [temp]
             print("[-]Unknown Hash Type: {0}".format(selected_thash))
             sys.exit()
-
+        
+        if is_bcrypt(hashed):
+            return ["bcrypt"]
+        
         thash = hash_length[len(hashed)]
         return thash
     except KeyError:
@@ -134,7 +141,7 @@ def find_cracked(hashed, jdata, skip):
     return None
 
 def combos(x, hashed, thash):
-    global Loop_Break, res
+    global Loop_Break, salt, res
 
     for combo in itertools.product(''.join(characters), repeat=x):
         chars = "".join(combo)
@@ -176,7 +183,7 @@ def wlist_crack(hashed, wlist, thash):
 
 
 def launch_pad_wwlist(hashlist, wlist):
-    global Loop_Break, res
+    global Loop_Break, selected_thash, res
 
     if not os.path.isfile(hashlist) or not os.path.isfile(wlist):
         print("[-]File does not exists")
@@ -191,7 +198,7 @@ def launch_pad_wwlist(hashlist, wlist):
     with open(hashlist, "r") as opn:
         for line in opn:
             line = line.strip()
-            thash = check_thash(line)
+            thash = check_thash(line, selected_thash)
             if thash == None:
                 print("[-]error: Unknown Hash length")
                 print("[-]Try selecting the hash type -d [hash type]")
@@ -203,18 +210,19 @@ def launch_pad_wwlist(hashlist, wlist):
                 print(temp)
                 continue
             
+            res = None
+            Loop_Break = False
             wlist_crack(line, args.w, thash)
             if res != None:
                 print_cracked(res)
                 store_data(file_data, line, res[0], res[1])
-                Loop_Break = False
-                res = None
     opn.close()
 
 def launch_pad_wlist(hashed):
-    global res
+    global selected_thash, res
 
-    thash = check_thash(hashed)
+
+    thash = check_thash(hashed, selected_thash)
     if thash == None:
         print("[-]error: Unknown Hash length")
         print("[-]Try selecting the hash type -d [hash type]")
@@ -224,7 +232,7 @@ def launch_pad_wlist(hashed):
     if temp != -1 and temp != None:
         print(temp)
         sys.exit()
-    
+
     wlist_crack(hashed, args.w, thash)
     if res != None:
         print_cracked(res)
@@ -243,7 +251,7 @@ def launch_pad_force(hashed, thash):
             threads_count += 1
             if Loop_Break:
                 print_cracked(res)
-                pool.shutdown(wait=False)
+                pool.shutdown(wait=True)
                 return 0
             print("[*]Thread stopped trying next length")
     
@@ -272,7 +280,7 @@ def launch_pad_force(hashed, thash):
     return 0
 
 def laucnh_pad_hash_list(filename):
-    global Loop_Break, res
+    global Loop_Break, selected_thash, res
 
     if not os.path.isfile(args.f):
         print("[-]File does not exists")
@@ -285,7 +293,7 @@ def laucnh_pad_hash_list(filename):
     with open(filename, "r") as opn:
         for line in opn:
             line = line.strip()
-            thash = check_thash(line)
+            thash = check_thash(line, selected_thash)
             if thash == None:
                 print("[-]error: Unknown Hash length")
                 print("[-]Try selecting the hash type -d [hash type]")
@@ -298,20 +306,19 @@ def laucnh_pad_hash_list(filename):
             if temp != -1 and temp != None:
                 print(temp)
                 continue
-
-            launch_pad_force(line, thash)
-            if res != None:
-                store_data(file_data, line, res[0], res[1])
             
             res = None
             Loop_Break = False
         
+            launch_pad_force(line, thash)
+            if res != None:
+                store_data(file_data, line, res[0], res[1])
+            
     opn.close()
 
 if __name__ == "__main__":
     res = None
     salt = None
-    temp = [None]
     jdata = None
     Loop_Break = False
     selected_thash = None
@@ -363,12 +370,12 @@ if __name__ == "__main__":
     
     if args.d != None:
         selected_thash = args.d
-
+    
     if args.f != None and args.w == None:
         laucnh_pad_hash_list(args.f)
     elif args.w != None:
         if args.i != None:
-            thash = check_thash(args.i)
+            thash = check_thash(args.i, selected_thash)
             if thash == None:
                 print("[-]error: Unknown Hash length")
                 print("[-]Try selecting the hash type -d [hash type]")
@@ -378,7 +385,7 @@ if __name__ == "__main__":
         elif args.f != None:
             launch_pad_wwlist(args.f, args.w)
     else:
-        thash = check_thash(args.i)
+        thash = check_thash(args.i, selected_thash)
         if thash == None:
             print("[-]error: Unknown Hash length")
             print("[-]Try selecting the hash type -d [hash type]")
